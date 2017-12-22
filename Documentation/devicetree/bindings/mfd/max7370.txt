@@ -1,0 +1,138 @@
+* Maxim MAX7370 multi-function device
+
+The Maxim MAX7370 is a multi-function device which includes
+64 key switches, 16 GPIOs, 4 LED and PWM intensity control.
+
+Required properties:
+- compatible: Should be the following: "maxim,max7370"
+- reg: Specifies the i2c slave address of the max7370 block.
+  It can be 0x38, 0x3a, 0x3c or 0x3e IIUC.
+
+Optional properties:
+- interrupt-parent:      Specifies the phandle of the interrupt controller to which
+                         the interrupt from MAX7370 are routed to.
+- interrupts:            IRQ line specifiers
+- interrupt-names:       Must be "irq"
+- interrupt-controller:  Identifies the device as an interrupt controller.
+- #interrupt-cells:      Number of cells to encode an interrupt source, shall be 1.
+
+Examples:
+	max7370@38 {
+		compatible = "maxim,max7370";
+		reg = <0x38>;
+		interrupt-parent = <&gpio1>;
+		interrupts = <23 IRQ_TYPE_LEVEL_LOW>;
+		interrupt-names = "irq";
+
+		interrupt-controller;
+		#interrupt-cells = <1>;
+
+		gpio {
+			compatible = "maxim,max7370-gpio";
+			interrupts = <0>;
+
+			gpio-controller;
+			#gpio-cells = <2>;
+			interrupt-controller;
+			#interrupt-cells = <2>;
+
+			/* Disabled by default */
+			/* enable asserts interrupt when I2C bus times out */
+			maxim,i2c-timeout-interrupt;
+
+			/* Disabled by default */
+			/* Return all GPIO registers to their POR value. */
+			maxim,reset;
+
+			/* 9 ms by default */
+			/* valid values: 9, 10, 11, ..., 40 ms */
+			maxim,debounce-delay-ms = <9>;
+
+			/* use "none" for skip configure */
+			/* valid values: "none", "rising", "both" */
+			/* ROW0 - ROW7, COL0 - COL7 */
+			maxim,edges = "none", "none", "none", "none",
+				      "none", "none", "none", "none",
+				      "none", "none", "none", "none",
+				      "none", "none", "none", "none";
+		};
+
+		keypad {
+			compatible = "maxim,max7370-keypad";
+			interrupts = <1>;
+
+			/* 256 ms by default */
+			/* 0 - disabled */
+			/* valid values: 8192, 4096, 2048, 1024, 512, 256 ms */
+			maxim,autosleep = <0>;
+
+			/* 32 ms by default */
+			/* valid values: 2, 4, 6, ..., 32 ms */
+			maxim,debounce-delay-release-ms = <16>;
+			maxim,debounce-delay-press-ms = <16>;
+
+			/* 0 - disabled (by default) */
+			/* valid values: 0, 1, 2, 3, ..., 31 debounce cycles */
+			maxim,assert-int-cycles = <1>;
+
+			/* 0 - disabled (by default) */
+			/* valid values: 0, 2, 4, 6, ..., 14 key events in FIFO */
+			maxim,assert-int-on-fifo-events = <0>;
+
+			/* Disabled if autorepeat disabled */;
+			/* 8 by default */
+			/* valid values: 8, 16, 24, ..., 128 debounce cycles */
+			maxim,autorepeat-delay-cycles = <8>;
+
+			/* Disabled if autorepeat disabled */;
+			/* 4 by default */
+			/* valid values: 4, 8, 12, ..., 32 debounce cycles */
+			maxim,autorepeat-freq-cycles = <4>;
+
+			keypad,num-rows = <2>;
+			keypad,num-columns = <1>;
+			linux,no-autorepeat;
+			linux,wakeup;
+			linux,keymap = < MATRIX_KEY(0, 0, KEY_F5)
+					 MATRIX_KEY(1, 0, KEY_F4) >;
+		};
+
+		pwm {
+			compatible = "maxim,max7370-pwm";
+			#pwm-cells = <2>;
+
+			/* Disabled by default, used as GPIO */
+			/* Activate LED driver for COL4-COL7 */
+			maxim,led0;
+			maxim,led1;
+			maxim,led2;
+			maxim,led3;
+
+			/* valid values: 0, 1, 2, ..., 256 */
+			maxim,common-pwm-ratio = <0>;
+
+			/* Individual PWM ratio for COL4-COL7 */
+			/* valid values: 0, 1, 2, ..., 256 */
+			maxim,individual-pwm-ratio = <0 0 0 0>;
+
+			/* Disabled by default */
+			/* use common PWM for ports */
+			maxim,use-common-pwm;
+
+			/* 0 - not blink */
+			/* valid values: 0, 256, 512, 1024, 2048, 4096 ms */
+			maxim,blink-period-ms = <0>;
+
+			/* valid values:
+			 * 0 - LED is on for 50% of the blink period
+			 * 1 - LED is on for 25% of the blink period
+			 * 2 - LED is on for 12.5% of the blink period
+			 * 3 - LED is on for 6.25% of the blink period
+			 */
+			maxim,blink-on-time = <0>;
+
+			/* Default 20 mA */
+			/* valid values: 10, 20 mA */
+			maxim,constant-current = <20>;
+		};
+	};
