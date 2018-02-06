@@ -351,10 +351,10 @@ max7370_keypad_of_probe(struct device *dev)
 	if (of_get_property(np, "maxim,autosleep", &proplen)) {
 		of_property_read_u32(np, "maxim,autosleep", &val);
 		if (val) {
-			if (val < MAX7370_MIN_AUTOSLEEP || val > MAX7370_MIN_AUTOSLEEP) {
+			if (val < MAX7370_MIN_AUTOSLEEP || val > MAX7370_MAX_AUTOSLEEP) {
 				dev_err(dev, "autosleep must be between "
 							"%d to %d and powered by 2\n",
-					MAX7370_MIN_AUTOSLEEP, MAX7370_MIN_AUTOSLEEP);
+					MAX7370_MIN_AUTOSLEEP, MAX7370_MAX_AUTOSLEEP);
 				return ERR_PTR(-EINVAL);
 			}
 
