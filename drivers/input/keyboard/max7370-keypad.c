@@ -244,7 +244,7 @@ static int max7370_keypad_enable(struct max7370_keypad *keypad)
 	ret = max7370_set_bits(max7370,
 			MAX7370_REG_CONFIG,
 			MAX7370_CFG_WAKEUP,
-			0x00);
+			0x00 | MAX7370_CFG_WAKEUP);
 	if (ret < 0)
 		return ret;
 
