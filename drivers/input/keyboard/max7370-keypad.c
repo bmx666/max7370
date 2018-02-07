@@ -571,8 +571,9 @@ static int max7370_keypad_probe(struct platform_device *pdev)
 	}
 
 	/* let platform decide if keypad is a wakeup source or not */
-	device_init_wakeup(&pdev->dev, plat->enable_wakeup);
-	device_set_wakeup_capable(&pdev->dev, plat->enable_wakeup);
+	error = device_init_wakeup(&pdev->dev, plat->enable_wakeup);
+	if (error)
+		dev_err(&pdev->dev, "device_init_wakeup failed: %d\n", error);
 
 	platform_set_drvdata(pdev, keypad);
 
