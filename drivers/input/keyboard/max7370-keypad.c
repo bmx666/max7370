@@ -244,7 +244,7 @@ static int max7370_keypad_enable(struct max7370_keypad *keypad)
 	ret = max7370_set_bits(max7370,
 			MAX7370_REG_CONFIG,
 			MAX7370_CFG_WAKEUP,
-			0x00);
+			0x00 | MAX7370_CFG_WAKEUP);
 	if (ret < 0)
 		return ret;
 
@@ -571,8 +571,9 @@ static int max7370_keypad_probe(struct platform_device *pdev)
 	}
 
 	/* let platform decide if keypad is a wakeup source or not */
-	device_init_wakeup(&pdev->dev, plat->enable_wakeup);
-	device_set_wakeup_capable(&pdev->dev, plat->enable_wakeup);
+	error = device_init_wakeup(&pdev->dev, plat->enable_wakeup);
+	if (error)
+		dev_err(&pdev->dev, "device_init_wakeup failed: %d\n", error);
 
 	platform_set_drvdata(pdev, keypad);
 
