@@ -59,6 +59,12 @@ enum max7370_block {
 #define MAX7370_CFG_WAKEUP		BIT(1)
 #define MAX7370_CFG_TIMEOUT		BIT(0)
 
+/*
+ * GPIO Configuration register bits
+ */
+#define MAX7370_GPIOCFG_ENABLE	BIT(4)
+#define MAX7370_GPIOCFG_RESET	BIT(3)
+
 #define MAX7370_INT_GPIIRQ		0
 #define MAX7370_INT_KBDIRQ		1
 
