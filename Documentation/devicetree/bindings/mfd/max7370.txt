@@ -79,12 +79,12 @@ Examples:
 			/* valid values: 0, 2, 4, 6, ..., 14 key events in FIFO */
 			maxim,assert-int-on-fifo-events = <0>;
 
-			/* Disabled if autorepeat disabled */;
+			/* Disabled if autorepeat disabled */
 			/* 8 by default */
 			/* valid values: 8, 16, 24, ..., 128 debounce cycles */
 			maxim,autorepeat-delay-cycles = <8>;
 
-			/* Disabled if autorepeat disabled */;
+			/* Disabled if autorepeat disabled */
 			/* 4 by default */
 			/* valid values: 4, 8, 12, ..., 32 debounce cycles */
 			maxim,autorepeat-freq-cycles = <4>;
