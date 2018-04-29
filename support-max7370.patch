@@ -1,10 +1,10 @@
 diff --git a/drivers/gpio/Kconfig b/drivers/gpio/Kconfig
-index c88b01b..9824715 100644
+index dafa3f9..38a7686 100644
 --- a/drivers/gpio/Kconfig
 +++ b/drivers/gpio/Kconfig
-@@ -743,6 +743,15 @@ config GPIO_LP3943
- 	  LP3943 can be used as a GPIO expander which provides up to 16 GPIOs.
- 	  Open drain outputs are required for this usage.
+@@ -915,6 +915,15 @@ config GPIO_LP873X
+ 	  This driver can also be built as a module. If so, the module will be
+           called gpio-lp873x.
  
 +config GPIO_MAX7370
 +	bool "Maxim MAX7370 GPIOs"
@@ -15,26 +15,26 @@ index c88b01b..9824715 100644
 +	  This enables support for the GPIOs found on the MAX7370
 +	  I/O Expander.
 +
- config GPIO_MSIC
- 	bool "Intel MSIC mixed signal gpio support"
- 	depends on MFD_INTEL_MSIC
+ config GPIO_MAX77620
+ 	tristate "GPIO support for PMIC MAX77620 and MAX20024"
+ 	depends on MFD_MAX77620
 diff --git a/drivers/gpio/Makefile b/drivers/gpio/Makefile
-index f71bb97..21a7c99 100644
+index d074c22..9db8881 100644
 --- a/drivers/gpio/Makefile
 +++ b/drivers/gpio/Makefile
-@@ -50,6 +50,7 @@ obj-$(CONFIG_GPIO_MAX730X)	+= gpio-max730x.o
+@@ -66,6 +66,7 @@ obj-$(CONFIG_GPIO_MAX730X)	+= gpio-max730x.o
  obj-$(CONFIG_GPIO_MAX7300)	+= gpio-max7300.o
  obj-$(CONFIG_GPIO_MAX7301)	+= gpio-max7301.o
  obj-$(CONFIG_GPIO_MAX732X)	+= gpio-max732x.o
 +obj-$(CONFIG_GPIO_MAX7370)	+= gpio-max7370.o
+ obj-$(CONFIG_GPIO_MAX77620)	+= gpio-max77620.o
  obj-$(CONFIG_GPIO_MB86S7X)	+= gpio-mb86s7x.o
- obj-$(CONFIG_GPIO_MC33880)	+= gpio-mc33880.o
- obj-$(CONFIG_GPIO_MC9S08DZ60)	+= gpio-mc9s08dz60.o
+ obj-$(CONFIG_GPIO_MENZ127)	+= gpio-menz127.o
 diff --git a/drivers/input/keyboard/Kconfig b/drivers/input/keyboard/Kconfig
-index 21953d8..d1fc845 100644
+index 13a1295..f3ae954 100644
 --- a/drivers/input/keyboard/Kconfig
 +++ b/drivers/input/keyboard/Kconfig
-@@ -376,6 +376,18 @@ config KEYBOARD_MAX7359
+@@ -392,6 +392,18 @@ config KEYBOARD_MAX7359
  	  To compile this driver as a module, choose M here: the
  	  module will be called max7359_keypad.
  
@@ -54,10 +54,10 @@ index 21953d8..d1fc845 100644
  	tristate "MELFAS MCS Touchkey"
  	depends on I2C
 diff --git a/drivers/input/keyboard/Makefile b/drivers/input/keyboard/Makefile
-index 1d416dd..0dd2272 100644
+index 0a613ac..6581171 100644
 --- a/drivers/input/keyboard/Makefile
 +++ b/drivers/input/keyboard/Makefile
-@@ -36,6 +36,7 @@ obj-$(CONFIG_KEYBOARD_LPC32XX)		+= lpc32xx-keys.o
+@@ -37,6 +37,7 @@ obj-$(CONFIG_KEYBOARD_LPC32XX)		+= lpc32xx-keys.o
  obj-$(CONFIG_KEYBOARD_MAPLE)		+= maple_keyb.o
  obj-$(CONFIG_KEYBOARD_MATRIX)		+= matrix_keypad.o
  obj-$(CONFIG_KEYBOARD_MAX7359)		+= max7359_keypad.o
@@ -66,10 +66,10 @@ index 1d416dd..0dd2272 100644
  obj-$(CONFIG_KEYBOARD_MPR121)		+= mpr121_touchkey.o
  obj-$(CONFIG_KEYBOARD_NEWTON)		+= newtonkbd.o
 diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
-index 767c3f8..9843b43 100644
+index d542719..ba3dfd178 100644
 --- a/drivers/mfd/Kconfig
 +++ b/drivers/mfd/Kconfig
-@@ -544,6 +544,21 @@ config MFD_MAX8998
+@@ -694,6 +694,21 @@ config MFD_MAX8998
  	  additional drivers must be enabled in order to use the functionality
  	  of the device.
  
@@ -81,9 +81,9 @@ index 767c3f8..9843b43 100644
 +	select IRQ_DOMAIN
 +	help
 +	  Say yes here to add support for Maxim Semiconductor MAX7370.
-+	  This provides microprocessors with management of up to 64 key switches,
-+	  with an additional 4 LED drivers or 16 GPIOs that feature constant-current,
-+	  and PWM intensity control options.
++	  This provides microprocessors with management of up to 64 key
++	  switches, with an additional 4 LED drivers or 16 GPIOs that feature
++	  constant-current, and PWM intensity control options.
 +	  This driver provides common support for accessing the device,
 +	  additional drivers must be enabled in order to use the functionality
 +	  of the device.
@@ -92,22 +92,22 @@ index 767c3f8..9843b43 100644
  	tristate "MediaTek MT6397 PMIC Support"
  	select MFD_CORE
 diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
-index 6abd3d4..d410203 100644
+index 8ce8258..883c9fa 100644
 --- a/drivers/mfd/Makefile
 +++ b/drivers/mfd/Makefile
-@@ -116,6 +116,7 @@ obj-$(CONFIG_MFD_DA9063)	+= da9063.o
- obj-$(CONFIG_MFD_DA9150)	+= da9150-core.o
+@@ -135,6 +135,7 @@ obj-$(CONFIG_MFD_DA9150)	+= da9150-core.o
+ 
  obj-$(CONFIG_MFD_MAX14577)	+= max14577.o
  obj-$(CONFIG_MFD_MAX17135)	+= max17135-core.o
 +obj-$(CONFIG_MFD_MAX7370)	+= max7370.o
+ obj-$(CONFIG_MFD_MAX77620)	+= max77620.o
  obj-$(CONFIG_MFD_MAX77686)	+= max77686.o
  obj-$(CONFIG_MFD_MAX77693)	+= max77693.o
- obj-$(CONFIG_MFD_MAX77843)	+= max77843.o
 diff --git a/drivers/pwm/Kconfig b/drivers/pwm/Kconfig
-index b1541f4..aa64da5 100644
+index cf1f359..eb46815 100644
 --- a/drivers/pwm/Kconfig
 +++ b/drivers/pwm/Kconfig
-@@ -211,6 +211,16 @@ config PWM_LPSS_PLATFORM
+@@ -271,6 +271,16 @@ config PWM_LPSS_PLATFORM
  	  To compile this driver as a module, choose M here: the module
  	  will be called pwm-lpss-platform.
  
@@ -121,18 +121,18 @@ index b1541f4..aa64da5 100644
 +	  To compile this driver as a module, choose M here: the module
 +	  will be called pwm-max7370.
 +
- config PWM_MXS
- 	tristate "Freescale MXS PWM support"
- 	depends on ARCH_MXS && OF
+ config PWM_MESON
+ 	tristate "Amlogic Meson PWM driver"
+ 	depends on ARCH_MESON
 diff --git a/drivers/pwm/Makefile b/drivers/pwm/Makefile
-index ec50eb5..a09eb4e 100644
+index e13e3b1..9a2969c 100644
 --- a/drivers/pwm/Makefile
 +++ b/drivers/pwm/Makefile
-@@ -18,6 +18,7 @@ obj-$(CONFIG_PWM_LPC32XX)	+= pwm-lpc32xx.o
+@@ -25,6 +25,7 @@ obj-$(CONFIG_PWM_LPC32XX)	+= pwm-lpc32xx.o
  obj-$(CONFIG_PWM_LPSS)		+= pwm-lpss.o
  obj-$(CONFIG_PWM_LPSS_PCI)	+= pwm-lpss-pci.o
  obj-$(CONFIG_PWM_LPSS_PLATFORM)	+= pwm-lpss-platform.o
 +obj-$(CONFIG_PWM_MAX7370)	+= pwm-max7370.o
+ obj-$(CONFIG_PWM_MESON)		+= pwm-meson.o
+ obj-$(CONFIG_PWM_MTK_DISP)	+= pwm-mtk-disp.o
  obj-$(CONFIG_PWM_MXS)		+= pwm-mxs.o
- obj-$(CONFIG_PWM_PCA9685)	+= pwm-pca9685.o
- obj-$(CONFIG_PWM_PUV3)		+= pwm-puv3.o
