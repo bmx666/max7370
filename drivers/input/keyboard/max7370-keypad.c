@@ -340,7 +340,7 @@ max7370_keypad_of_probe(struct device *dev)
 	if (!plat->krow || !plat->kcol ||
 	     plat->krow > MAX7370_MAX_KEY_ROWS || plat->kcol > MAX7370_MAX_KEY_COLS) {
 		dev_err(dev,
-			"keypad columns/rows not properly specified (%ux%u)\n",
+			"keypad columns/rows not property specified (%ux%u)\n",
 			plat->kcol, plat->krow);
 		return ERR_PTR(-EINVAL);
 	}
