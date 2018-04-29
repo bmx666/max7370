@@ -103,25 +103,30 @@ Examples:
 
 			/* Disabled by default, used as GPIO */
 			/* Activate LED driver for COL4-COL7 */
-			maxim,led0;
-			maxim,led1;
-			maxim,led2;
-			maxim,led3;
+			/* 0 - inactive */
+			/* 1 - active */
+			maxim,leds = <1 1 1 1>;
 
-			/* valid values: 0, 1, 2, ..., 256 */
+			/* Common PWM ratio for COL4-COL7 */
+			/* valid values: 0, 1, 2, ..., 255 */
+			/* NOTE: in spec. 255 skipped, max 256 */
+			/* Default is 0 */
 			maxim,common-pwm-ratio = <0>;
 
 			/* Individual PWM ratio for COL4-COL7 */
-			/* valid values: 0, 1, 2, ..., 256 */
+			/* valid values: 0, 1, 2, ..., 255 */
+			/* NOTE: in spec. 255 skipped, max 256 */
+			/* Default is 0 */
 			maxim,individual-pwm-ratio = <0 0 0 0>;
 
-			/* Disabled by default */
-			/* use common PWM for ports */
-			maxim,use-common-pwm;
+			/* Individual PWM ratio by default */
+			/* 0 - set individual PWM ratio */
+			/* 1 - set common PWM ratio */
+			maxim,active-pwm-ratio = <0 0 0 0>;
 
 			/* 0 - not blink */
 			/* valid values: 0, 256, 512, 1024, 2048, 4096 ms */
-			maxim,blink-period-ms = <0>;
+			maxim,blink-period-ms = <0 0 0 0>;
 
 			/* valid values:
 			 * 0 - LED is on for 50% of the blink period
@@ -129,10 +134,14 @@ Examples:
 			 * 2 - LED is on for 12.5% of the blink period
 			 * 3 - LED is on for 6.25% of the blink period
 			 */
-			maxim,blink-on-time = <0>;
+			maxim,blink-on-time = <0 0 0 0>;
+
+			/* 0 - no fading */
+			/* valid values: 0, 256, 512, 1024, 2048, 4096 ms */
+			maxim,fading-time-ms = <0>;
 
 			/* Default 20 mA */
-			/* valid values: 10, 20 mA */
-			maxim,constant-current = <20>;
+			/* flag for set 10mA */
+			maxim,constant-current-10mA;
 		};
 	};
