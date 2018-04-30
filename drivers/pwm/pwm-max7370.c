@@ -529,6 +529,8 @@ static int max7370_pwm_chip_disable(struct max7370_pwm *pwm)
 	if (ret < 0)
 		goto fail;
 
+	return 0;
+
 fail:
 	dev_err(dev, "failed to disable PWM module\n");
 	return ret;
