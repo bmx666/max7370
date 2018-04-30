@@ -208,7 +208,7 @@ static int max7370_irq_init(struct max7370 *max7370, struct device_node *np)
 	return 0;
 }
 
-static int max7370_device_prepare(struct max7370 *max7370)
+static int max7370_device_reset(struct max7370 *max7370)
 {
 	int ret = 0;
 
@@ -246,9 +246,9 @@ static int max7370_device_init(struct max7370 *max7370)
 	int ret = 0;
 	unsigned int blocks = max7370->pdata->block;
 
-	ret = max7370_device_prepare(max7370);
+	ret = max7370_device_reset(max7370);
 	if (ret) {
-		dev_err(max7370->dev, "failed to prepare device\n");
+		dev_err(max7370->dev, "failed to reset device\n");
 		return ret;
 	}
 
