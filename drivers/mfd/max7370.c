@@ -228,7 +228,7 @@ static int max7370_device_init(struct max7370 *max7370)
 					max7370_dev_keypad, ARRAY_SIZE(max7370_dev_keypad),
 					NULL, 0, max7370->domain);
 		if (ret) {
-			dev_err(max7370->dev, "failed to keypad child\n");
+			dev_err(max7370->dev, "failed to add keypad child\n");
 			return ret;
 		}
 		dev_info(max7370->dev, "added keypad block\n");
@@ -239,7 +239,7 @@ static int max7370_device_init(struct max7370 *max7370)
 					max7370_dev_pwm, ARRAY_SIZE(max7370_dev_pwm),
 				    NULL, 0, max7370->domain);
 		if (ret) {
-			dev_err(max7370->dev, "failed to pwm child\n");
+			dev_err(max7370->dev, "failed to add pwm child\n");
 			return ret;
 		}
 		dev_info(max7370->dev, "added pwm block\n");
