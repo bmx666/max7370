@@ -7,7 +7,7 @@ index dafa3f9..38a7686 100644
            called gpio-lp873x.
  
 +config GPIO_MAX7370
-+	bool "Maxim MAX7370 GPIOs"
++	tristate "Maxim MAX7370 GPIOs"
 +	depends on MFD_MAX7370
 +	depends on OF_GPIO
 +	select GPIOLIB_IRQCHIP
