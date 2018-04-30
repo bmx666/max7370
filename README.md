@@ -7,4 +7,4 @@ and PWM intensity control options.
 **Current status:**
 - Keypad controller implemented
 - GPIO controller implemented with partially stubs
-- PWM controller implemented with stubs
+- PWM controller implemented
