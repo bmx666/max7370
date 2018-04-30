@@ -629,7 +629,7 @@ static int max7370_gpio_probe(struct platform_device *pdev)
 
 	max7370_gpio->chip = template_chip;
 	max7370_gpio->chip.ngpio = max7370->num_gpio;
-	max7370_gpio->chip.dev = &pdev->dev;
+	max7370_gpio->chip.parent = &pdev->dev;
 	max7370_gpio->chip.base = -1;
 	max7370_gpio->chip.of_node = np;
 
