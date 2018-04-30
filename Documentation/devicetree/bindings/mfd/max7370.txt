@@ -40,10 +40,6 @@ Examples:
 			/* enable asserts interrupt when I2C bus times out */
 			maxim,i2c-timeout-interrupt;
 
-			/* Disabled by default */
-			/* Return all GPIO registers to their POR value. */
-			maxim,reset;
-
 			/* 9 ms by default */
 			/* valid values: 9, 10, 11, ..., 40 ms */
 			maxim,debounce-delay-ms = <9>;
