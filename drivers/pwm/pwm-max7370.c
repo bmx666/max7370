@@ -423,7 +423,7 @@ max7370_pwm_of_probe(struct device *dev)
 	return plat;
 }
 
-static int max7370_pwm_chip_enable(struct max7370_pwm *pwm)
+static int max7370_pwm_prepare(struct max7370_pwm *pwm)
 {
 	const struct max7370_pwm_platform_data *board = pwm->board;
 	struct max7370 *max7370 = pwm->max7370;
@@ -489,11 +489,11 @@ static int max7370_pwm_chip_enable(struct max7370_pwm *pwm)
 	return 0;
 
 fail:
-	dev_err(dev, "failed to enable PWM module\n");
+	dev_err(dev, "failed to prepare PWM module\n");
 	return ret;
 }
 
-static int max7370_pwm_chip_disable(struct max7370_pwm *pwm)
+static int max7370_pwm_unprepare(struct max7370_pwm *pwm)
 {
 	struct max7370 *max7370 = pwm->max7370;
 	struct device *dev = pwm->chip.dev;
@@ -518,7 +518,7 @@ static int max7370_pwm_chip_disable(struct max7370_pwm *pwm)
 	return 0;
 
 fail:
-	dev_err(dev, "failed to disable PWM module\n");
+	dev_err(dev, "failed to unprepare PWM module\n");
 	return ret;
 }
 
@@ -564,11 +564,11 @@ static int max7370_pwm_probe(struct platform_device *pdev)
 		pwm->duty_cycle[i] = 0;
 	}
 
-	ret = max7370_pwm_chip_disable(pwm);
+	ret = max7370_pwm_unprepare(pwm);
 	if (ret)
 		return ret;
 
-	ret = max7370_pwm_chip_enable(pwm);
+	ret = max7370_pwm_prepare(pwm);
 	if (ret)
 		return ret;
 
@@ -580,7 +580,8 @@ static int max7370_pwm_remove(struct platform_device *pdev)
 	struct max7370_pwm *pwm = platform_get_drvdata(pdev);
 	int ret;
 
-	max7370_pwm_chip_disable(pwm);
+	if (max7370_pwm_unprepare(pwm))
+		dev_err(&pdev->dev, "failed to unprepare PWM module\n");
 
 	ret = pwmchip_remove(&pwm->chip);
 	if (ret)
@@ -595,7 +596,7 @@ static int max7370_pwm_suspend(struct device *dev)
 	struct platform_device *pdev = to_platform_device(dev);
 	struct max7370_pwm *pwm = platform_get_drvdata(pdev);
 
-	return max7370_pwm_chip_disable(pwm);
+	return max7370_pwm_unprepare(pwm);
 }
 
 static int max7370_pwm_resume(struct device *dev)
@@ -603,7 +604,7 @@ static int max7370_pwm_resume(struct device *dev)
 	struct platform_device *pdev = to_platform_device(dev);
 	struct max7370_pwm *pwm = platform_get_drvdata(pdev);
 
-	return max7370_pwm_chip_enable(pwm);
+	return max7370_pwm_prepare(pwm);
 }
 
 static const struct dev_pm_ops max7370_pwm_dev_pm_ops = {
