@@ -642,7 +642,8 @@ static int max7370_gpio_probe(struct platform_device *pdev)
 		return ret;
 	}
 
-	ret = gpiochip_add(&max7370_gpio->chip);
+	ret = devm_gpiochip_add_data(&pdev->dev, &max7370_gpio->chip,
+					max7370_gpio);
 	if (ret) {
 		dev_err(&pdev->dev, "unable to add gpiochip: %d\n", ret);
 		return ret;
@@ -673,8 +674,6 @@ static int max7370_gpio_probe(struct platform_device *pdev)
 static int max7370_gpio_remove(struct platform_device *pdev)
 {
 	struct max7370_gpio *max7370_gpio = platform_get_drvdata(pdev);
-
-	gpiochip_remove(&max7370_gpio->chip);
 
 	return 0;
 }
