@@ -9,6 +9,7 @@
  */
 
 #include <linux/module.h>
+#include <linux/delay.h>
 #include <linux/interrupt.h>
 #include <linux/irq.h>
 #include <linux/irqdomain.h>
@@ -207,10 +208,49 @@ static int max7370_irq_init(struct max7370 *max7370, struct device_node *np)
 	return 0;
 }
 
+static int max7370_device_prepare(struct max7370 *max7370)
+{
+	int ret = 0;
+
+	/* reset GPIO */
+	ret = max7370_set_bits(max7370,
+			MAX7370_REG_GPIOCFG,
+			MAX7370_GPIOCFG_RESET,
+			0x00 | MAX7370_GPIOCFG_RESET);
+	if (ret < 0)
+		return ret;
+
+	/* wait reset */
+	msleep(10);
+
+	/* disable keypad */
+	ret = max7370_reg_write(max7370,
+			MAX7370_REG_KBDSIZE,
+			0x00);
+	if (ret < 0)
+		return ret;
+
+	/* disable GPIO */
+	ret = max7370_set_bits(max7370,
+			MAX7370_REG_GPIOCFG,
+			MAX7370_GPIOCFG_ENABLE,
+			0x00);
+	if (ret < 0)
+		return ret;
+
+	return 0;
+}
+
 static int max7370_device_init(struct max7370 *max7370)
 {
 	int ret = 0;
 	unsigned int blocks = max7370->pdata->block;
+
+	ret = max7370_device_prepare(max7370);
+	if (ret) {
+		dev_err(max7370->dev, "failed to prepare device\n");
+		return ret;
+	}
 
 	if (blocks & MAX7370_BLOCK_GPIO) {
 		ret = mfd_add_devices(max7370->dev, -1,
