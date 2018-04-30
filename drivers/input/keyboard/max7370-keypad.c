@@ -117,16 +117,22 @@ static int max7370_keypad_init_key_hardware(struct max7370_keypad *keypad)
 	const struct max7370_keypad_platform_data *board = keypad->board;
 	struct max7370 *max7370 = keypad->max7370;
 	int ret;
+	bool gpio_enabled;
 
 	dev_dbg(max7370->dev, "max7370_keypad_init_key_hardware\n");
 
-	/* disable GPIO */
-	ret = max7370_set_bits(max7370,
-			MAX7370_REG_GPIOCFG,
-			MAX7370_GPIOCFG_ENABLE,
-			0x00);
-	if (ret < 0)
-		return ret;
+	gpio_enabled = max7370->pdata->block
+			& (MAX7370_BLOCK_GPIO | MAX7370_BLOCK_PWM);
+
+	/* disable GPIO mode for powersave */
+	if (!gpio_enabled) {
+		ret = max7370_set_bits(max7370,
+				MAX7370_REG_GPIOCFG,
+				MAX7370_GPIOCFG_ENABLE,
+				0x00);
+		if (ret < 0)
+			return ret;
+	}
 
 	/* set key-switch operating mode */
 	/* enable wakeup, enable key release, clear int on first read */
