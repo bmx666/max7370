@@ -253,8 +253,10 @@ static int max7370_keypad_enable(struct max7370_keypad *keypad)
 	/* enable wakeup */
 	ret = max7370_set_bits(max7370,
 			MAX7370_REG_CONFIG,
-			MAX7370_CFG_WAKEUP,
-			0x00 | MAX7370_CFG_WAKEUP);
+			MAX7370_CFG_SLEEP |
+				MAX7370_CFG_WAKEUP,
+			MAX7370_CFG_SLEEP |
+				MAX7370_CFG_WAKEUP);
 	if (ret < 0)
 		return ret;
 
@@ -278,7 +280,8 @@ static int max7370_keypad_disable(struct max7370_keypad *keypad)
 	/* disable wakeup */
 	ret = max7370_set_bits(max7370,
 			MAX7370_REG_CONFIG,
-			MAX7370_CFG_WAKEUP,
+			MAX7370_CFG_SLEEP |
+				MAX7370_CFG_WAKEUP,
 			0x00);
 	if (ret < 0)
 		return ret;
