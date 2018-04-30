@@ -599,7 +599,7 @@ static int max7370_gpio_probe(struct platform_device *pdev)
 
 	plat = max7370_gpio_of_probe(&pdev->dev);
 	if (IS_ERR(plat)) {
-		dev_err(&pdev->dev, "invalid keypad platform data\n");
+		dev_err(&pdev->dev, "invalid gpio platform data\n");
 		return PTR_ERR(plat);
 	}
 
