@@ -576,10 +576,6 @@ max7370_gpio_of_probe(struct device *dev)
 	/* GPIO enable */
 	plat->cfg |= 1 << MAX7370_GPIOCFG_ENABLE_SHIFT;
 
-	/* GPIO reset */
-	plat->cfg |= (of_property_read_bool(np, "maxim,reset") & 1)
-					<< MAX7370_GPIOCFG_RESET_SHIFT;
-
 	/* I2C timeout interrupt enable */
 	plat->cfg |= (of_property_read_bool(np, "maxim,i2c-timeout-interrupt") & 1)
 					<< MAX7370_GPIOCFG_I2C_TIMEOUT_SHIFT;
