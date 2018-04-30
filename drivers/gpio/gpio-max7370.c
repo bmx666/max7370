@@ -633,15 +633,6 @@ static int max7370_gpio_probe(struct platform_device *pdev)
 	max7370_gpio->chip.base = -1;
 	max7370_gpio->chip.of_node = np;
 
-	ret = devm_request_threaded_irq(&pdev->dev,
-					irq, NULL, max7370_gpio_irq,
-					IRQF_ONESHOT, "max7370-gpio",
-					max7370_gpio);
-	if (ret) {
-		dev_err(&pdev->dev, "unable to get irq: %d\n", ret);
-		return ret;
-	}
-
 	ret = devm_gpiochip_add_data(&pdev->dev, &max7370_gpio->chip,
 					max7370_gpio);
 	if (ret) {
@@ -657,6 +648,15 @@ static int max7370_gpio_probe(struct platform_device *pdev)
 	if (ret) {
 		dev_err(&pdev->dev,
 			"could not connect irqchip to gpiochip\n");
+		return ret;
+	}
+
+	ret = devm_request_threaded_irq(&pdev->dev,
+					irq, NULL, max7370_gpio_irq,
+					IRQF_ONESHOT, "max7370-gpio",
+					max7370_gpio);
+	if (ret) {
+		dev_err(&pdev->dev, "unable to get irq: %d\n", ret);
 		return ret;
 	}
 
