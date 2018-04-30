@@ -113,12 +113,6 @@ Examples:
 			/* Default is 0 */
 			maxim,common-pwm-ratio = <0>;
 
-			/* Individual PWM ratio for COL4-COL7 */
-			/* valid values: 0, 1, 2, ..., 255 */
-			/* NOTE: in spec. 255 skipped, max 256 */
-			/* Default is 0 */
-			maxim,individual-pwm-ratio = <64 128 255 255>;
-
 			/* Individual PWM ratio by default */
 			/* 0 - set individual PWM ratio */
 			/* 1 - set common PWM ratio */
