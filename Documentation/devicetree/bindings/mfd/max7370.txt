@@ -117,7 +117,7 @@ Examples:
 			/* valid values: 0, 1, 2, ..., 255 */
 			/* NOTE: in spec. 255 skipped, max 256 */
 			/* Default is 0 */
-			maxim,individual-pwm-ratio = <0 0 0 0>;
+			maxim,individual-pwm-ratio = <64 128 255 255>;
 
 			/* Individual PWM ratio by default */
 			/* 0 - set individual PWM ratio */
@@ -126,7 +126,7 @@ Examples:
 
 			/* 0 - not blink */
 			/* valid values: 0, 256, 512, 1024, 2048, 4096 ms */
-			maxim,blink-period-ms = <0 0 0 0>;
+			maxim,blink-period-ms = <256 512 1024 4096>;
 
 			/* valid values:
 			 * 0 - LED is on for 50% of the blink period
@@ -134,7 +134,7 @@ Examples:
 			 * 2 - LED is on for 12.5% of the blink period
 			 * 3 - LED is on for 6.25% of the blink period
 			 */
-			maxim,blink-on-time = <0 0 0 0>;
+			maxim,blink-on-time = <1 1 0 1>;
 
 			/* 0 - no fading */
 			/* valid values: 0, 256, 512, 1024, 2048, 4096 ms */
