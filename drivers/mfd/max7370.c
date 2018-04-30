@@ -8,18 +8,18 @@
  * MAX7370 MFD core driver
  */
 
-#include <linux/module.h>
 #include <linux/delay.h>
+#include <linux/err.h>
+#include <linux/i2c.h>
 #include <linux/interrupt.h>
 #include <linux/irq.h>
 #include <linux/irqdomain.h>
-#include <linux/slab.h>
-#include <linux/i2c.h>
-#include <linux/of.h>
-#include <linux/of_device.h>
 #include <linux/mfd/core.h>
 #include <linux/mfd/max7370.h>
-#include <linux/err.h>
+#include <linux/module.h>
+#include <linux/slab.h>
+#include <linux/of.h>
+#include <linux/of_device.h>
 
 /**
  * max7370_reg_read() - read a single MAX7370 register
