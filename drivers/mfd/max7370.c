@@ -410,6 +410,9 @@ static int max7370_remove(struct i2c_client *i2c)
 		irq_domain_remove(max7370->domain);
 	}
 
+	if (max7370_device_reset(max7370))
+		dev_err(max7370->dev, "failed to reset device\n");
+
 	mfd_remove_devices(max7370->dev);
 
 	return 0;
