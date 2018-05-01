@@ -36,10 +36,6 @@ Examples:
 			interrupt-controller;
 			#interrupt-cells = <2>;
 
-			/* Disabled by default */
-			/* enable asserts interrupt when I2C bus times out */
-			maxim,i2c-timeout-interrupt;
-
 			/* 9 ms by default */
 			/* valid values: 9, 10, 11, ..., 40 ms */
 			maxim,debounce-delay-ms = <9>;
