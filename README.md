@@ -6,5 +6,5 @@ and PWM intensity control options.
 
 **Current status:**
 - Keypad controller implemented
-- GPIO controller implemented with partially stubs
+- GPIO controller implemented (GPIOIRQ not working)
 - PWM controller implemented
